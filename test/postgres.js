@@ -64,3 +64,16 @@ test.it('all should support \'not like\' operator ', function (test) {
         });
     });
 });
+test.it('all should support NULL expression', function (test) {
+    Post = schema.models.Post;
+    Post.destroyAll(function () {
+        Post.create({title:'Postgres Test NULL'}, function (err, post) {
+            var id = post.id
+            Post.all({where:{subject:null}}, function (err, post) {
+                test.ok(!err);
+                test.ok(post[0].id == id);
+                test.done();
+            });
+        });
+    });
+})
